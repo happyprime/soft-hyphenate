@@ -1,0 +1,26 @@
+{
+	"name": "happyprime/soft-hyphenate",
+	"description": "Maintain a library of hyphenation suggestions for long words used throughout your site.",
+	"version": "0.0.1",
+	"type": "wordpress-plugin",
+	"license": "GPLv2+",
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/installers": true,
+			"phpstan/extension-installer": true
+		},
+		"platform": {
+			"php": "7.4"
+		}
+	},
+	"require-dev": {
+		"happyprime/coding-standards": "*",
+		"phpcompatibility/php-compatibility": "dev-develop as 9.99.99"
+	},
+	"scripts": {
+		"phpcs": "vendor/bin/phpcs",
+		"phpcbf": "vendor/bin/phpcbf",
+		"phpstan": "vendor/bin/phpstan analyse --memory-limit=2048M"
+	}
+}

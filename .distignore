@@ -1,0 +1,17 @@
+.git/
+.github/
+.gitignore
+.distignore
+.wordpress-org/
+node_modules/
+vendor/
+.eslintrc.js
+.prettierrc.js
+composer.json
+composer.lock
+package.json
+package-lock.json
+phpcs.xml
+phpstan.neon.dist
+README.md
+webpack.config.js
