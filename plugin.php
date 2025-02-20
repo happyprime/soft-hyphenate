@@ -28,3 +28,80 @@ namespace SoftHyphenate;
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
+
+add_action( 'admin_menu', __NAMESPACE__ . '\add_settings_page' );
+add_action( 'admin_init', __NAMESPACE__ . '\settings_init' );
+
+/**
+ * Adds the settings page.
+ */
+function add_settings_page() {
+	add_options_page(
+		__( 'Soft Hyphenate', 'soft-hyphenate' ),
+		__( 'Soft Hyphenate', 'soft-hyphenate' ),
+		'manage_options',
+		'soft-hyphenate',
+		__NAMESPACE__ . '\display_settings_page'
+	);
+}
+
+/**
+ * Initializes the settings.
+ */
+function settings_init() {
+	register_setting( 'soft-hyphenate', 'hp-soft-hyphenate' );
+
+	add_settings_section(
+		'hyphenation-suggestion-section',
+		__( 'Hyphenation Suggestions', 'soft-hyphenate' ),
+		__NAMESPACE__ . '\section_callback',
+		'soft-hyphenate'
+	);
+
+	add_settings_field(
+		'hyphenation-suggestions',
+		'',
+		__NAMESPACE__ . '\display_hyphenation_suggestion_field',
+		'soft-hyphenate',
+		'hyphenation-suggestion-section'
+	);
+}
+
+/**
+ * Displays the Soft Hyphenate settings page.
+ */
+function display_settings_page() {
+	?>
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Soft Hyphenate Settings', 'soft-hyphenate' ); ?></h1>
+		<form action="options.php" method="post">
+		<?php
+			settings_fields( 'soft-hyphenate' );
+
+			do_settings_sections( 'soft-hyphenate' );
+
+			submit_button();
+		?>
+		</form>
+	</div>
+	<?php
+}
+
+/**
+ * Displays the hyphenation suggestions section.
+ */
+function section_callback() {
+	printf( '<p>%s</p>', esc_html__( 'Enter your hyphenation suggestions (e.g. "hyph-en-ate") below, one word per line.', 'soft-hyphenate' ) );
+}
+
+/**
+ * Displays the field for capturing hyphenation suggestions.
+ */
+function display_hyphenation_suggestion_field() {
+	$hyphenation_suggestion = get_option( 'hp-soft-hyphenate' );
+
+	printf(
+		'<textarea name="hp-soft-hyphenate" id="hp-soft-hyphenate" rows="20" cols="50">%s</textarea>',
+		esc_textarea( $hyphenation_suggestion )
+	);
+}
