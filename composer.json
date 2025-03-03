@@ -21,6 +21,7 @@
 	"scripts": {
 		"phpcs": "vendor/bin/phpcs",
 		"phpcbf": "vendor/bin/phpcbf",
-		"phpstan": "vendor/bin/phpstan analyse --memory-limit=2048M"
+		"phpstan": "vendor/bin/phpstan analyse --memory-limit=2048M",
+		"phpunit": "vendor/bin/phpunit"
 	}
 }

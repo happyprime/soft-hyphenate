@@ -7,7 +7,7 @@
  * Author:       Happy Prime
  * Author URI:   https://happyprime.co
  * Text Domain:  soft-hyphenate
- * Requires PHP: 8
+ * Requires PHP: 7.4
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -132,6 +132,47 @@ function hyphenate_content( string $content ) {
 }
 
 /**
+ * Add soft hyphens to a string based on a suggestion.
+ *
+ * @param string $value The string to add soft hyphens to.
+ * @param string $word The word to add soft hyphens to.
+ *
+ * @return string The string with soft hyphens added.
+ */
+function hyphenate( string $value, string $word ) {
+	// Get the word without hyphens.
+	$without_hyphens = str_replace( '-', '', $word );
+
+	// Create the soft-hyphenated version.
+	$soft_hyphenated = str_replace( '-', '&shy;', $word );
+
+	// Create an all-caps soft-hyphenated version (&shy; needs to remain lowercase).
+	$soft_hyphenated_upper = str_replace( '-', '&shy;', strtoupper( $word ) );
+
+	// Use case-insensitive regular expression to find matches.
+	$pattern = '/(' . preg_quote( $without_hyphens, '/' ) . ')/i';
+
+	// Replace matches while preserving original case.
+	$value = preg_replace_callback(
+		$pattern,
+		function ( $matches ) use ( $soft_hyphenated, $soft_hyphenated_upper ) {
+			if ( strtoupper( $matches[0] ) === $matches[0] ) {
+				return $soft_hyphenated_upper;
+			}
+
+			if ( ucfirst( strtolower( $matches[0] ) ) === $matches[0] ) {
+				return ucfirst( strtolower( $soft_hyphenated ) );
+			}
+
+			return strtolower( $soft_hyphenated );
+		},
+		$value
+	);
+
+	return $value;
+}
+
+/**
  * Adds soft hypens to any suggestion library words in the given string.
  *
  * @param string $value The string to add soft hyphens to.
@@ -151,34 +192,7 @@ function add_soft_hyphens( string $value ) {
 				continue;
 			}
 
-			// Get the word without hyphens.
-			$without_hyphens = str_replace( '-', '', $word );
-
-			// Create the soft-hyphenated version.
-			$soft_hyphenated = str_replace( '-', '&shy;', $word );
-
-			// Create an all-caps soft-hyphenated version (&shy; needs to remain lowercase).
-			$soft_hyphenated_upper = str_replace( '-', '&shy;', strtoupper( $word ) );
-
-			// Use case-insensitive regular expression to find matches.
-			$pattern = '/(' . preg_quote( $without_hyphens, '/' ) . ')/i';
-
-			// Replace matches while preserving original case.
-			$value = preg_replace_callback(
-				$pattern,
-				function ( $matches ) use ( $soft_hyphenated, $soft_hyphenated_upper ) {
-					if ( strtoupper( $matches[0] ) === $matches[0] ) {
-						return $soft_hyphenated_upper;
-					}
-
-					if ( ucfirst( strtolower( $matches[0] ) ) === $matches[0] ) {
-						return ucfirst( strtolower( $soft_hyphenated ) );
-					}
-
-					return strtolower( $soft_hyphenated );
-				},
-				$value
-			);
+			$value = hyphenate( $value, $word );
 		}
 	}
 
