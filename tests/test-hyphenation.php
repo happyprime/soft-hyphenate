@@ -14,6 +14,9 @@ use SoftHyphenate;
  */
 class TestHyphenation extends WP_UnitTestCase {
 
+	/**
+	 * Set up the test.
+	 */
 	public function setUp(): void {
 		parent::setUp();
 
@@ -30,6 +33,9 @@ class TestHyphenation extends WP_UnitTestCase {
 		update_option( 'hp-soft-hyphenate', $suggestions );
 	}
 
+	/**
+	 * Tear down the test.
+	 */
 	public function tearDown(): void {
 		parent::tearDown();
 
@@ -98,9 +104,8 @@ class TestHyphenation extends WP_UnitTestCase {
 	 *
 	 * @param string $original The original text.
 	 * @param string $expected The expected text.
-	 * @param string $word The word to hyphenate.
 	 */
-	public function test_hyphenation_of_content( string $original, string $expected, string $word ): void {
+	public function test_hyphenation_of_content( string $original, string $expected ): void {
 		$this->assertEquals( $expected, SoftHyphenate\hyphenate_content( $original ) );
 	}
 }
