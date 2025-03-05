@@ -13,12 +13,35 @@ use SoftHyphenate;
  * Test the hyphenation of text.
  */
 class TestHyphenation extends WP_UnitTestCase {
+
+	public function setUp(): void {
+		parent::setUp();
+
+		$suggestions = implode(
+			"\n",
+			[
+				'hyphenat-ion',
+				'pascal-case',
+				'pascalcase-word',
+				'elem-ent',
+			]
+		);
+
+		update_option( 'hp-soft-hyphenate', $suggestions );
+	}
+
+	public function tearDown(): void {
+		parent::tearDown();
+
+		delete_option( 'hp-soft-hyphenate' );
+	}
+
 	/**
 	 * Add a data provider for the test.
 	 *
 	 * @return array
 	 */
-	public function data_provider_for_test_hyphenation_of_text(): array {
+	public function data_provider_for_test_hyphenation_of_content(): array {
 		return [
 			[
 				'A string of text with the word that expects hyphenation.',
@@ -41,9 +64,19 @@ class TestHyphenation extends WP_UnitTestCase {
 				'hyphenat-ion',
 			],
 			[
-				'CamelCase is unlikely, but it should be accounted for.',
-				'Camel&shy;Case is unlikely, but it should be accounted for.',
-				'camel-case',
+				'PascalCase is unlikely, but it should be accounted for.',
+				'Pascal&shy;Case is unlikely, but it should be accounted for.',
+				'pascal-case',
+			],
+			[
+				'Something PascalCase should be handled anywhere in a string.',
+				'Something Pascal&shy;Case should be handled anywhere in a string.',
+				'pascal-case',
+			],
+			[
+				'A three-hump PascalCaseWord should be handled anywhere in a string.',
+				'A three-hump PascalCase&shy;Word should be handled anywhere in a string.',
+				'pascalcase-word',
 			],
 			[
 				'Attributes <a href="https://example.org/hyphenation">hyphenation</a> should be ignored.',
@@ -61,13 +94,13 @@ class TestHyphenation extends WP_UnitTestCase {
 	/**
 	 * Test the hyphenation of text.
 	 *
-	 * @dataProvider data_provider_for_test_hyphenation_of_text
+	 * @dataProvider data_provider_for_test_hyphenation_of_content
 	 *
 	 * @param string $original The original text.
 	 * @param string $expected The expected text.
 	 * @param string $word The word to hyphenate.
 	 */
-	public function test_hyphenation_of_text( string $original, string $expected, string $word ): void {
-		$this->assertEquals( $expected, SoftHyphenate\hyphenate( $original, $word ) );
+	public function test_hyphenation_of_content( string $original, string $expected, string $word ): void {
+		$this->assertEquals( $expected, SoftHyphenate\hyphenate_content( $original ) );
 	}
 }
