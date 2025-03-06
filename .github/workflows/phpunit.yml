@@ -47,9 +47,9 @@ jobs:
           tools: composer, cs2pr
 
       - name: Install SVN
-        run:
-          sudo apt-get update
-          sudo apt-get install subversion
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y subversion
 
       - name: Install WordPress test setup
         env:
