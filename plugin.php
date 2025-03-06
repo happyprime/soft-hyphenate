@@ -2,7 +2,7 @@
 /**
  * Plugin Name:  Soft Hyphenate
  * Description:  Maintain a library of hyphenation suggestions for long words used throughout your site.
- * Version:      0.0.1
+ * Version:      1.0.0
  * Plugin URI:   https://github.com/happyprime/soft-hyphenate/
  * Author:       Happy Prime
  * Author URI:   https://happyprime.co
