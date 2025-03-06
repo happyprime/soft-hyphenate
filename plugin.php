@@ -31,4 +31,4 @@ if ( ! defined( 'WPINC' ) ) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-Init::init();
+add_action( 'plugins_loaded', [ Init::class, 'init' ] );
