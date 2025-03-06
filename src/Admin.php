@@ -37,7 +37,14 @@ class Admin {
 	 * Initialize the settings.
 	 */
 	public static function settings_init(): void {
-		register_setting( 'soft-hyphenate', 'hp-soft-hyphenate' );
+		register_setting(
+			'soft-hyphenate',
+			'hp-soft-hyphenate',
+			[
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_textarea_field',
+			]
+		);
 
 		add_settings_section(
 			'hyphenation-suggestion-section',
