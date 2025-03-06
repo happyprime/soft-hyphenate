@@ -66,17 +66,15 @@ class Hyphenate {
 
 			$chunk = $processor->get_modifiable_text();
 
-			// Capture one or more whitespace characters from the front of the chunk.
-			preg_match( '/^\s+/', $chunk, $matches );
-			$leading_whitespace = $matches[0] ?? '';
+			// Capture leading and trailing whitespace and punctuation.
+			preg_match( '/^([\s\p{P}]*)(.*?)([\s\p{P}]*)$/', $chunk, $matches );
 
-			// Capture one or more whitespace characters from the back of the chunk.
-			preg_match( '/(\s+)$/', $chunk, $matches );
-			$trailing_whitespace = $matches[0] ?? '';
+			$front_matter = $matches[1] ?? '';
+			$chunk        = $matches[2] ?? $chunk;
+			$back_matter  = $matches[3] ?? '';
 
-			$chunk = trim( $chunk );
 			$chunk = $this->chunk( $chunk );
-			$chunk = $leading_whitespace . $chunk . $trailing_whitespace;
+			$chunk = $front_matter . $chunk . $back_matter;
 
 			$processor->set_modifiable_text( $chunk );
 		}
