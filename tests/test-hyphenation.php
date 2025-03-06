@@ -27,6 +27,7 @@ class TestHyphenation extends WP_UnitTestCase {
 				'pascal-case',
 				'pascalcase-word',
 				'elem-ent',
+				'funky🥃whisk-ey',
 			]
 		);
 
@@ -84,6 +85,14 @@ class TestHyphenation extends WP_UnitTestCase {
 			[
 				'<CustomElement>custom element tags</CustomElement> should be ignored.',
 				'<CustomElement>custom elem&shy;ent tags</CustomElement> should be ignored.',
+			],
+			[
+				'Strings with 🕺 should be processed for hyphenation properly. 👋🏻',
+				'Strings with 🕺 should be processed for hyphenat&shy;ion properly. 👋🏻',
+			],
+			[
+				'Plan on strange things like funky🥃whiskey.',
+				'Plan on strange things like funky🥃whisk&shy;ey.',
 			],
 		];
 	}
