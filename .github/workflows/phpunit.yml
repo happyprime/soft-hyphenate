@@ -1,0 +1,13 @@
+name: PHPUnit
+
+on:
+  push:
+    branches:
+      - trunk
+  pull_request:
+    branches:
+      - trunk
+
+jobs:
+  call-workflow:
+    uses: happyprime/workflows/.github/workflows/phpunit.yml@trunk
