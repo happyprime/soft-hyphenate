@@ -1,6 +1,6 @@
 # Soft Hyphenate
 
-Add soft hyphens to content in WordPress.
+Add curated soft hyphens to content in WordPress.
 
 ## Description
 

@@ -7,7 +7,7 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 Requires PHP: 7.4
 
-Add soft hyphens to content in WordPress.
+Add curated soft hyphens to content in WordPress.
 
 ## Description
 

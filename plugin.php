@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:  Soft Hyphenate
- * Description:  Maintain a library of hyphenation suggestions for long words used throughout your site.
+ * Description:  Add curated soft hyphens to content in WordPress.
  * Version:      1.0.0
  * Plugin URI:   https://github.com/happyprime/soft-hyphenate/
  * Author:       Happy Prime
