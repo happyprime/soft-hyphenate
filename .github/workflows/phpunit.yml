@@ -46,6 +46,11 @@ jobs:
           extensions: mysqli
           tools: composer, cs2pr
 
+      - name: Install SVN
+        run:
+          sudo apt-get update
+          sudo apt-get install subversion
+
       - name: Install WordPress test setup
         env:
           WP_VERSION: ${{ matrix.wordpress }}
