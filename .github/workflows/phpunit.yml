@@ -1,3 +1,6 @@
+# Run PHPUnit.
+#
+# This file is managed in https://github.com/happyprime/projects
 name: PHPUnit
 
 on:
