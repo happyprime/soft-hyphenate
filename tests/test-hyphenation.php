@@ -45,7 +45,7 @@ class TestHyphenation extends WP_UnitTestCase {
 	/**
 	 * Add a data provider for the test.
 	 *
-	 * @return array
+	 * @return array<array<string>>
 	 */
 	public function data_provider_for_test_hyphenation_of_content(): array {
 		return [
@@ -106,6 +106,8 @@ class TestHyphenation extends WP_UnitTestCase {
 	 * @param string $expected The expected text.
 	 */
 	public function test_hyphenation_of_content( string $original, string $expected ): void {
-		$this->assertEquals( $expected, SoftHyphenate\hyphenate_content( $original ) );
+		$hyphenation = new SoftHyphenate\Hyphenate();
+
+		$this->assertEquals( $expected, $hyphenation->content( $original ) );
 	}
 }
