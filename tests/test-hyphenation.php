@@ -94,6 +94,10 @@ class TestHyphenation extends WP_UnitTestCase {
 				'Plan on strange things like funky🥃whiskey.',
 				'Plan on strange things like funky🥃whisk' . "\u{00AD}" . 'ey.',
 			],
+			[
+				'<p>I remember being blown away in the 90s by the hacker battle of Kevin Mitnick and Tsutomu Shimomura in <a href="https://archive.org/details/takedownpursuita00shim/mode/1up"><em>Takedown</em></a>. It was an exciting early glimpse into how anything could be possible with computers.</p>',
+				'<p>I remember being blown away in the 90s by the hacker battle of Kevin Mitnick and Tsutomu Shimomura in <a href="https://archive.org/details/takedownpursuita00shim/mode/1up"><em>Takedown</em></a>. It was an exciting early glimpse into how anything could be possible with computers.</p>',
+			]
 		];
 	}
 
