@@ -81,12 +81,7 @@ class Hyphenate {
 			$processor->set_modifiable_text( $chunk );
 		}
 
-		$content = $processor->get_updated_html();
-
-		// Do we need to do this, or can we just let them be?
-		$content = str_replace( "\u{00AD}", '&shy;', $content );
-
-		return $content;
+		return $processor->get_updated_html();
 	}
 
 	/**

@@ -1,7 +1,7 @@
 {
 	"name": "happyprime/soft-hyphenate",
 	"description": "Maintain a library of hyphenation suggestions for long words used throughout your site.",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"type": "wordpress-plugin",
 	"license": "GPLv2+",
 	"config": {

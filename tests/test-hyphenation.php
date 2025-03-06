@@ -52,47 +52,47 @@ class TestHyphenation extends WP_UnitTestCase {
 		return [
 			[
 				'A string of text with the word that expects hyphenation.',
-				'A string of text with the word that expects hyphenat&shy;ion.',
+				'A string of text with the word that expects hyphenat' . "\u{00AD}" . 'ion.',
 			],
 			[
 				'Multiple hyphenation instances of hyphenation should be handled.',
-				'Multiple hyphenat&shy;ion instances of hyphenat&shy;ion should be handled.',
+				'Multiple hyphenat' . "\u{00AD}" . 'ion instances of hyphenat' . "\u{00AD}" . 'ion should be handled.',
 			],
 			[
 				'Hyphenation is likely to be capitalized at the beginning of a sentence.',
-				'Hyphenat&shy;ion is likely to be capitalized at the beginning of a sentence.',
+				'Hyphenat' . "\u{00AD}" . 'ion is likely to be capitalized at the beginning of a sentence.',
 			],
 			[
 				'Someone may stress HYPHENATION with all caps.',
-				'Someone may stress HYPHENAT&shy;ION with all caps.',
+				'Someone may stress HYPHENAT' . "\u{00AD}" . 'ION with all caps.',
 			],
 			[
 				'PascalCase is unlikely, but it should be accounted for.',
-				'Pascal&shy;Case is unlikely, but it should be accounted for.',
+				'Pascal' . "\u{00AD}" . 'Case is unlikely, but it should be accounted for.',
 			],
 			[
 				'Something PascalCase should be handled anywhere in a string.',
-				'Something Pascal&shy;Case should be handled anywhere in a string.',
+				'Something Pascal' . "\u{00AD}" . 'Case should be handled anywhere in a string.',
 			],
 			[
 				'A three-hump PascalCaseWord should be handled anywhere in a string.',
-				'A three-hump PascalCase&shy;Word should be handled anywhere in a string.',
+				'A three-hump PascalCase' . "\u{00AD}" . 'Word should be handled anywhere in a string.',
 			],
 			[
 				'Attributes <a href="https://example.org/hyphenation">hyphenation</a> should be ignored.',
-				'Attributes <a href="https://example.org/hyphenation">hyphenat&shy;ion</a> should be ignored.',
+				'Attributes <a href="https://example.org/hyphenation">hyphenat' . "\u{00AD}" . 'ion</a> should be ignored.',
 			],
 			[
 				'<CustomElement>custom element tags</CustomElement> should be ignored.',
-				'<CustomElement>custom elem&shy;ent tags</CustomElement> should be ignored.',
+				'<CustomElement>custom elem' . "\u{00AD}" . 'ent tags</CustomElement> should be ignored.',
 			],
 			[
 				'Strings with 🕺 should be processed for hyphenation properly. 👋🏻',
-				'Strings with 🕺 should be processed for hyphenat&shy;ion properly. 👋🏻',
+				'Strings with 🕺 should be processed for hyphenat' . "\u{00AD}" . 'ion properly. 👋🏻',
 			],
 			[
 				'Plan on strange things like funky🥃whiskey.',
-				'Plan on strange things like funky🥃whisk&shy;ey.',
+				'Plan on strange things like funky🥃whisk' . "\u{00AD}" . 'ey.',
 			],
 		];
 	}
