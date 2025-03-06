@@ -41,7 +41,8 @@ class Admin {
 			'soft-hyphenate',
 			'hp-soft-hyphenate',
 			[
-				'sanitize_callback' => [ __CLASS__, 'sanitize_settings' ],
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_textarea_field',
 			]
 		);
 
@@ -59,16 +60,6 @@ class Admin {
 			'soft-hyphenate',
 			'hyphenation-suggestion-section'
 		);
-	}
-
-	/**
-	 * Sanitize the settings.
-	 *
-	 * @param string $settings The settings.
-	 * @return string The sanitized settings.
-	 */
-	public static function sanitize_settings( string $settings ): string {
-		return sanitize_textarea_field( $settings );
 	}
 
 	/**
