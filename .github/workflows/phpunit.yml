@@ -18,7 +18,7 @@ jobs:
           image: mysql:latest
           env:
             MYSQL_DATABASE: wordpress_tests
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: password
           ports:
             - 3306:3306
 
