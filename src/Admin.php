@@ -13,10 +13,10 @@ namespace SoftHyphenate;
 class Admin {
 
 	const OPTION_PREFIX = 'hp-soft-';
-	const MENU_SLUG = 'soft-hyphenate';
-	const PAGE_SLUG = 'soft-hyphenate';
-	const SECTION_ID = 'hyphenation-suggestion-section';
-	const OPTION_GROUP = 'soft-hyphenate';
+	const MENU_SLUG     = 'soft-hyphenate';
+	const PAGE_SLUG     = 'soft-hyphenate';
+	const SECTION_ID    = 'hyphenation-suggestion-section';
+	const OPTION_GROUP  = 'soft-hyphenate';
 
 	/**
 	 * Initialize customizations in the WordPress admin.
@@ -45,7 +45,7 @@ class Admin {
 	public static function settings_init(): void {
 		register_setting(
 			self::OPTION_GROUP,
-			slef::OPTION_PREFIX . 'hyphenate',
+			self::OPTION_PREFIX . 'hyphenate',
 			[
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_textarea_field',
