@@ -5,7 +5,7 @@
  * @package soft-hyphenate
  */
 
-namespace SoftHyphenate;
+namespace HappyPrime\SoftHyphenate;
 
 /**
  * Manage admin settings for the plugin.
