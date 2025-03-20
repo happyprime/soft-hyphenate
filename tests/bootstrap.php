@@ -30,7 +30,7 @@ tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
  * Manually load the plugin being tested.
  */
 function _manually_load_plugin(): void { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
-	require dirname( __DIR__ ) . '/plugin.php';
+	require dirname( __DIR__ ) . '/soft-hyphenate.php';
 }
 
 // Start up the WP testing environment.
