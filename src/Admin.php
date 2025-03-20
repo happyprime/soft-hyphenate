@@ -12,6 +12,12 @@ namespace SoftHyphenate;
  */
 class Admin {
 
+	const OPTION_PREFIX = 'hp-soft-';
+	const MENU_SLUG = 'soft-hyphenate';
+	const PAGE_SLUG = 'soft-hyphenate';
+	const SECTION_ID = 'hyphenation-suggestion-section';
+	const OPTION_GROUP = 'soft-hyphenate';
+
 	/**
 	 * Initialize customizations in the WordPress admin.
 	 */
@@ -28,7 +34,7 @@ class Admin {
 			__( 'Soft Hyphenate', 'soft-hyphenate' ),
 			__( 'Soft Hyphenate', 'soft-hyphenate' ),
 			'manage_options',
-			'soft-hyphenate',
+			self::MENU_SLUG,
 			[ __CLASS__, 'display_settings_page' ]
 		);
 	}
@@ -38,8 +44,8 @@ class Admin {
 	 */
 	public static function settings_init(): void {
 		register_setting(
-			'soft-hyphenate',
-			'hp-soft-hyphenate',
+			self::OPTION_GROUP,
+			slef::OPTION_PREFIX . 'hyphenate',
 			[
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_textarea_field',
@@ -47,10 +53,10 @@ class Admin {
 		);
 
 		add_settings_section(
-			'hyphenation-suggestion-section',
+			self::SECTION_ID,
 			__( 'Hyphenation Suggestions', 'soft-hyphenate' ),
 			[ __CLASS__, 'section_callback' ],
-			'soft-hyphenate'
+			self::PAGE_SLUG
 		);
 
 		add_settings_field(
@@ -71,9 +77,9 @@ class Admin {
 			<h1><?php esc_html_e( 'Soft Hyphenate Settings', 'soft-hyphenate' ); ?></h1>
 			<form action="options.php" method="post">
 			<?php
-				settings_fields( 'soft-hyphenate' );
+				settings_fields( self::OPTION_GROUP );
 
-				do_settings_sections( 'soft-hyphenate' );
+				do_settings_sections( self::PAGE_SLUG );
 
 				submit_button();
 			?>
@@ -86,14 +92,17 @@ class Admin {
 	 * Render the section.
 	 */
 	public static function section_callback(): void {
-		printf( '<p>%s</p>', esc_html__( 'Enter your hyphenation suggestions (e.g. "hyph-en-ate") below, one word per line.', 'soft-hyphenate' ) );
+		printf(
+			'<p>%s</p>',
+			esc_html__( 'Enter your hyphenation suggestions (e.g. "hyph-en-ate") below, one word per line.', 'soft-hyphenate' )
+		);
 	}
 
 	/**
 	 * Render the field.
 	 */
 	public static function display_hyphenation_suggestion_field(): void {
-		$hyphenation_suggestion = get_option( 'hp-soft-hyphenate', '' );
+		$hyphenation_suggestion = get_option( self::OPTION_PREFIX . 'hyphenate', '' );
 
 		if ( ! is_scalar( $hyphenation_suggestion ) ) {
 			$hyphenation_suggestion = '';
