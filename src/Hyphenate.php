@@ -36,7 +36,7 @@ class Hyphenate {
 	 * Load the suggestions from the database.
 	 */
 	public function load_suggestions(): void {
-		$suggestions = get_option( 'hp-soft-hyphenate' );
+		$suggestions = get_option( Admin::OPTION_PREFIX . 'hyphenate' );
 
 		if ( ! is_scalar( $suggestions ) || empty( $suggestions ) ) {
 			return;
