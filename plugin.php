@@ -8,7 +8,7 @@
  * Author URI:   https://happyprime.co
  * License:      GPLv2 or later
  * License URI:  https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * Text Domain:  hp-soft-hyphenate
+ * Text Domain:  soft-hyphenate
  * Requires PHP: 7.4
  *
  * This program is free software; you can redistribute it and/or modify

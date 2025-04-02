@@ -40,8 +40,8 @@ class Admin {
 	 */
 	public static function add_settings_page(): void {
 		add_options_page(
-			__( 'Soft Hyphenate', 'hp-soft-hyphenate' ),
-			__( 'Soft Hyphenate', 'hp-soft-hyphenate' ),
+			__( 'Soft Hyphenate', 'soft-hyphenate' ),
+			__( 'Soft Hyphenate', 'soft-hyphenate' ),
 			'manage_options',
 			self::SETTINGS_PAGE,
 			[ __CLASS__, 'display_settings_page' ]
@@ -63,14 +63,14 @@ class Admin {
 
 		add_settings_section(
 			self::SETTINGS_SECTION,
-			__( 'Hyphenation Suggestions', 'hp-soft-hyphenate' ),
+			__( 'Hyphenation Suggestions', 'soft-hyphenate' ),
 			[ __CLASS__, 'section_callback' ],
 			self::SETTINGS_PAGE
 		);
 
 		add_settings_field(
 			self::SETTINGS_SECTION . '-input',
-			__( 'Suggestions', 'hp-soft-hyphenate' ),
+			__( 'Suggestions', 'soft-hyphenate' ),
 			[ __CLASS__, 'display_hyphenation_suggestion_field' ],
 			self::SETTINGS_PAGE,
 			self::SETTINGS_SECTION
@@ -83,7 +83,7 @@ class Admin {
 	public static function display_settings_page(): void {
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Soft Hyphenate Settings', 'hp-soft-hyphenate' ); ?></h1>
+			<h1><?php esc_html_e( 'Soft Hyphenate Settings', 'soft-hyphenate' ); ?></h1>
 			<form action="options.php" method="post">
 			<?php
 				settings_fields( self::OPTION_GROUP );
@@ -101,7 +101,7 @@ class Admin {
 	public static function section_callback(): void {
 		printf(
 			'<p>%s</p>',
-			esc_html__( 'Enter your hyphenation suggestions (e.g. "hyph-en-ate") below, one word per line.', 'hp-soft-hyphenate' )
+			esc_html__( 'Enter your hyphenation suggestions (e.g. "hyph-en-ate") below, one word per line.', 'soft-hyphenate' )
 		);
 	}
 
