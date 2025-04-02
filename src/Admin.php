@@ -2,7 +2,7 @@
 /**
  * Manage admin settings for the plugin.
  *
- * @package soft-hyphenate
+ * @package HappyPrime\SoftHyphenate
  */
 
 namespace HappyPrime\SoftHyphenate;
@@ -12,11 +12,15 @@ namespace HappyPrime\SoftHyphenate;
  */
 class Admin {
 
-	const OPTION_PREFIX = 'hp-soft-';
-	const MENU_SLUG     = 'soft-hyphenate';
-	const PAGE_SLUG     = 'soft-hyphenate';
-	const SECTION_ID    = 'hyphenation-suggestion-section';
-	const OPTION_GROUP  = 'soft-hyphenate';
+	/**
+	 * The unique identifier for the settings page.
+	 */
+	const SETTINGS_PAGE = PREFIX . SLUG . '-page';
+
+	/**
+	 * The unique identifier for the option group.
+	 */
+	const OPTION_GROUP = PREFIX . SLUG . '-option-group';
 
 	/**
 	 * Initialize customizations in the WordPress admin.
@@ -31,10 +35,10 @@ class Admin {
 	 */
 	public static function add_settings_page(): void {
 		add_options_page(
-			__( 'Soft Hyphenate', 'soft-hyphenate' ),
-			__( 'Soft Hyphenate', 'soft-hyphenate' ),
+			__( 'Soft Hyphenate', 'hp-soft-hyphenate' ),
+			__( 'Soft Hyphenate', 'hp-soft-hyphenate' ),
 			'manage_options',
-			self::MENU_SLUG,
+			self::SETTINGS_PAGE,
 			[ __CLASS__, 'display_settings_page' ]
 		);
 	}
@@ -45,7 +49,7 @@ class Admin {
 	public static function settings_init(): void {
 		register_setting(
 			self::OPTION_GROUP,
-			self::OPTION_PREFIX . 'hyphenate',
+			OPTION_NAME,
 			[
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_textarea_field',
@@ -53,18 +57,18 @@ class Admin {
 		);
 
 		add_settings_section(
-			self::SECTION_ID,
-			__( 'Hyphenation Suggestions', 'soft-hyphenate' ),
+			'hyphenation-suggestions',
+			__( 'Hyphenation Suggestions', 'hp-soft-hyphenate' ),
 			[ __CLASS__, 'section_callback' ],
-			self::PAGE_SLUG
+			self::SETTINGS_PAGE
 		);
 
 		add_settings_field(
-			'hyphenation-suggestions',
+			'hyphenation-suggestions-input',
 			'',
 			[ __CLASS__, 'display_hyphenation_suggestion_field' ],
-			'soft-hyphenate',
-			'hyphenation-suggestion-section'
+			self::SETTINGS_PAGE,
+			'hyphenation-suggestions'
 		);
 	}
 
@@ -74,13 +78,11 @@ class Admin {
 	public static function display_settings_page(): void {
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Soft Hyphenate Settings', 'soft-hyphenate' ); ?></h1>
+			<h1><?php esc_html_e( 'Soft Hyphenate Settings', 'hp-soft-hyphenate' ); ?></h1>
 			<form action="options.php" method="post">
 			<?php
 				settings_fields( self::OPTION_GROUP );
-
-				do_settings_sections( self::PAGE_SLUG );
-
+				do_settings_sections( self::SETTINGS_PAGE );
 				submit_button();
 			?>
 			</form>
@@ -94,7 +96,7 @@ class Admin {
 	public static function section_callback(): void {
 		printf(
 			'<p>%s</p>',
-			esc_html__( 'Enter your hyphenation suggestions (e.g. "hyph-en-ate") below, one word per line.', 'soft-hyphenate' )
+			esc_html__( 'Enter your hyphenation suggestions (e.g. "hyph-en-ate") below, one word per line.', 'hp-soft-hyphenate' )
 		);
 	}
 
@@ -102,14 +104,16 @@ class Admin {
 	 * Render the field.
 	 */
 	public static function display_hyphenation_suggestion_field(): void {
-		$hyphenation_suggestion = get_option( self::OPTION_PREFIX . 'hyphenate', '' );
+		$hyphenation_suggestion = get_option( OPTION_NAME, '' );
 
 		if ( ! is_scalar( $hyphenation_suggestion ) ) {
 			$hyphenation_suggestion = '';
 		}
 
 		printf(
-			'<textarea name="hp-soft-hyphenate" id="hp-soft-hyphenate" rows="20" cols="50">%s</textarea>',
+			'<textarea name="%s" id="%s" rows="20" cols="50">%s</textarea>',
+			esc_attr( OPTION_NAME ),
+			esc_attr( OPTION_NAME ),
 			esc_textarea( (string) $hyphenation_suggestion )
 		);
 	}
