@@ -1,9 +1,8 @@
 {
 	"name": "happyprime/soft-hyphenate",
 	"description": "Add curated soft hyphens to content in WordPress.",
-	"version": "1.0.0",
 	"type": "wordpress-plugin",
-	"license": "GPLv2+",
+	"license": "GPL-2.0-or-later",
 	"config": {
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true,
