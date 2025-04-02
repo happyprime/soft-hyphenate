@@ -8,6 +8,7 @@
  */
 
 use HappyPrime\SoftHyphenate\Hyphenate;
+use HappyPrime\SoftHyphenate;
 
 /**
  * Test the hyphenation of text.
@@ -31,7 +32,7 @@ class TestHyphenation extends WP_UnitTestCase {
 			]
 		);
 
-		update_option( 'hp-soft-hyphenate', $suggestions );
+		update_option( SoftHyphenate\OPTION_NAME, $suggestions );
 	}
 
 	/**
@@ -40,7 +41,7 @@ class TestHyphenation extends WP_UnitTestCase {
 	public function tearDown(): void {
 		parent::tearDown();
 
-		delete_option( 'hp-soft-hyphenate' );
+		delete_option( SoftHyphenate\OPTION_NAME );
 	}
 
 	/**

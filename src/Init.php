@@ -2,7 +2,7 @@
 /**
  * Initialize the plugin.
  *
- * @package soft-hyphenate
+ * @package HappyPrime\SoftHyphenate
  */
 
 namespace HappyPrime\SoftHyphenate;
@@ -30,7 +30,7 @@ class Init {
 	}
 
 	/**
-	 * Add soft hypens to content.
+	 * Add soft hyphens to content.
 	 *
 	 * @param string $content Content to be soft-hyphenated.
 	 *

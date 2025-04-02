@@ -21,10 +21,33 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * @package soft-hyphenate
+ * @package HappyPrime\SoftHyphenate
  */
 
 namespace HappyPrime\SoftHyphenate;
+
+/**
+ * A common prefix used with settings pages, fields, sections, and other
+ * components to help with uniquity.
+ *
+ * @var string
+ */
+const PREFIX = 'hp-sh-';
+
+/**
+ * A common slug combined with the prefix and used to build the names of
+ * settings pages, fields, sections, and other components.
+ *
+ * @var string
+ */
+const SLUG = 'soft-hyphenate';
+
+/**
+ * The main option key used for the plugin.
+ *
+ * @var string
+ */
+const OPTION_NAME = 'hp_soft_hyphenate';
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {

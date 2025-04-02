@@ -2,7 +2,7 @@
 /**
  * Manage hyphenation of content.
  *
- * @package soft-hyphenate
+ * @package HappyPrime\SoftHyphenate
  */
 
 namespace HappyPrime\SoftHyphenate;
@@ -36,7 +36,7 @@ class Hyphenate {
 	 * Load the suggestions from the database.
 	 */
 	public function load_suggestions(): void {
-		$suggestions = get_option( Admin::OPTION_PREFIX . 'hyphenate' );
+		$suggestions = get_option( OPTION_NAME );
 
 		if ( ! is_scalar( $suggestions ) || empty( $suggestions ) ) {
 			return;
