@@ -71,7 +71,7 @@ class Admin {
 		add_settings_field(
 			self::SETTINGS_SECTION . '-input',
 			__( 'Suggestions', 'soft-hyphenate' ),
-			[ __CLASS__, 'display_hyphenation_suggestion_field' ],
+			[ __CLASS__, 'display_hyphenation_suggestion_input' ],
 			self::SETTINGS_PAGE,
 			self::SETTINGS_SECTION
 		);
@@ -108,7 +108,7 @@ class Admin {
 	/**
 	 * Render the field.
 	 */
-	public static function display_hyphenation_suggestion_field(): void {
+	public static function display_hyphenation_suggestion_input(): void {
 		$hyphenation_suggestion = get_option( OPTION_NAME, '' );
 
 		if ( ! is_scalar( $hyphenation_suggestion ) ) {
