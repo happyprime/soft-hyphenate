@@ -23,6 +23,11 @@ class Admin {
 	const OPTION_GROUP = PREFIX . SLUG . '-option-group';
 
 	/**
+	 * The unique identifier for our main settings section.
+	 */
+	const SETTINGS_SECTION = 'hyphenation-suggestions';
+
+	/**
 	 * Initialize customizations in the WordPress admin.
 	 */
 	public static function init(): void {
@@ -57,18 +62,18 @@ class Admin {
 		);
 
 		add_settings_section(
-			'hyphenation-suggestions',
+			self::SETTINGS_SECTION,
 			__( 'Hyphenation Suggestions', 'hp-soft-hyphenate' ),
 			[ __CLASS__, 'section_callback' ],
 			self::SETTINGS_PAGE
 		);
 
 		add_settings_field(
-			'hyphenation-suggestions-input',
-			'',
+			self::SETTINGS_SECTION . '-input',
+			__( 'Suggestions', 'hp-soft-hyphenate' ),
 			[ __CLASS__, 'display_hyphenation_suggestion_field' ],
 			self::SETTINGS_PAGE,
-			'hyphenation-suggestions'
+			self::SETTINGS_SECTION
 		);
 	}
 
