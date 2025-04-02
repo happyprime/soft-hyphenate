@@ -24,7 +24,7 @@
  * @package soft-hyphenate
  */
 
-namespace SoftHyphenate;
+namespace HappyPrime\SoftHyphenate;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {

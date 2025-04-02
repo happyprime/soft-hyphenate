@@ -7,7 +7,7 @@
  * @package soft-hyphenate
  */
 
-use SoftHyphenate;
+use HappyPrime\SoftHyphenate\Hyphenate;
 
 /**
  * Test the hyphenation of text.
@@ -110,7 +110,7 @@ class TestHyphenation extends WP_UnitTestCase {
 	 * @param string $expected The expected text.
 	 */
 	public function test_hyphenation_of_content( string $original, string $expected ): void {
-		$hyphenation = new SoftHyphenate\Hyphenate();
+		$hyphenation = new Hyphenate();
 
 		$this->assertEquals( $expected, $hyphenation->content( $original ) );
 	}
