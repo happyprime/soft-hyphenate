@@ -1,0 +1,58 @@
+# Copyright (C) 2025 Happy Prime
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Soft Hyphenate 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/soft-hyphenate\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-04-02T19:49:24+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.10.0\n"
+"X-Domain: soft-hyphenate\n"
+
+#. Plugin Name of the plugin
+#: plugin.php
+#: src/Admin.php:43
+#: src/Admin.php:44
+msgid "Soft Hyphenate"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: plugin.php
+msgid "https://github.com/happyprime/soft-hyphenate/"
+msgstr ""
+
+#. Description of the plugin
+#: plugin.php
+msgid "Add curated soft hyphens to content in WordPress."
+msgstr ""
+
+#. Author of the plugin
+#: plugin.php
+msgid "Happy Prime"
+msgstr ""
+
+#. Author URI of the plugin
+#: plugin.php
+msgid "https://happyprime.co"
+msgstr ""
+
+#: src/Admin.php:66
+msgid "Hyphenation Suggestions"
+msgstr ""
+
+#: src/Admin.php:73
+msgid "Suggestions"
+msgstr ""
+
+#: src/Admin.php:86
+msgid "Soft Hyphenate Settings"
+msgstr ""
+
+#: src/Admin.php:104
+msgid "Enter your hyphenation suggestions (e.g. \"hyph-en-ate\") below, one word per line."
+msgstr ""
