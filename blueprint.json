@@ -1,0 +1,19 @@
+{
+	"landingPage": "/wp-admin/options-general.php?page=soft-hyphenate",
+	"preferredVersions": {
+		"php": "8.2",
+		"wp": "latest"
+	},
+	"steps": [
+		{
+			"step": "installPlugin",
+			"pluginData": {
+				"resource": "wordpress.org/plugins",
+				"slug": "soft-hyphenate"
+			}
+		},
+		{
+			"step": "login"
+		}
+	]
+}
