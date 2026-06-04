@@ -1,2 +1,4 @@
 vendor/
 .phpunit.result.cache
+.claude/settings.local.json
+.reviews/

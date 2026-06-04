@@ -2,10 +2,12 @@
 .github/
 .gitignore
 .distignore
+.editorconfig
 .phpunit.result.cache
 .wordpress-org/
 bin/
 tests/
+composer.json
 composer.lock
 phpcs.xml
 phpstan.neon.dist
