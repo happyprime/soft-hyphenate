@@ -165,4 +165,31 @@ class TestHyphenation extends WP_UnitTestCase {
 
 		$this->assertSame( $expected, $hyphenation->content( $original ) );
 	}
+
+	/**
+	 * Test that text around words survives when a text node spans lines.
+	 */
+	public function test_multiline_text_keeps_leading_punctuation(): void {
+		$hyphenation = new Hyphenate();
+		$shy         = "\u{00AD}";
+
+		$this->assertSame(
+			"<div>\n\t(Hyphenation,\nhyphenation.)\n</div>",
+			str_replace( $shy, '', $hyphenation->content( "<div>\n\t(Hyphenation,\nhyphenation.)\n</div>" ) )
+		);
+		$this->assertSame(
+			"<div>// hyphenat{$shy}ion\nhyphenat{$shy}ion</div>",
+			$hyphenation->content( "<div>// hyphenation\nhyphenation</div>" )
+		);
+	}
+
+	/**
+	 * Test that text with nothing to hyphenate keeps its original encoding.
+	 */
+	public function test_unchanged_text_keeps_entities(): void {
+		$hyphenation = new Hyphenate();
+		$original    = '<p>Fish &amp; chips&nbsp;&#8211; &lt;today&gt;</p>';
+
+		$this->assertSame( $original, $hyphenation->content( $original ) );
+	}
 }

@@ -82,19 +82,13 @@ class Hyphenate {
 				continue;
 			}
 
-			$chunk = $processor->get_modifiable_text();
+			$text       = $processor->get_modifiable_text();
+			$hyphenated = $this->chunk( $text );
 
-			// Capture leading and trailing whitespace and punctuation.
-			preg_match( '/^([\s\p{P}]*)(.*?)([\s\p{P}]*)$/', $chunk, $matches );
-
-			$front_matter = $matches[1] ?? '';
-			$chunk        = $matches[2] ?? $chunk;
-			$back_matter  = $matches[3] ?? '';
-
-			$chunk = $this->chunk( $chunk );
-			$chunk = $front_matter . $chunk . $back_matter;
-
-			$processor->set_modifiable_text( $chunk );
+			// Setting text re-encodes it, so only touch nodes that changed.
+			if ( $hyphenated !== $text ) {
+				$processor->set_modifiable_text( $hyphenated );
+			}
 		}
 
 		return $processor->get_updated_html();
@@ -108,20 +102,21 @@ class Hyphenate {
 	 * @return string The chunk of text with soft hyphens added.
 	 */
 	public function chunk( string $chunk ): string {
-		preg_match_all( '/([^\s\p{P}]+)([\s\p{P}]*)/', $chunk, $matches, PREG_SET_ORDER );
+		$hyphenated = preg_replace_callback(
+			'/[^\s\p{P}]+/',
+			function ( array $matches ): string {
+				$word = $matches[0];
 
-		$result = '';
-		foreach ( $matches as $match ) {
-			$hyphenated_match = $match[1];
+				foreach ( $this->suggestions as $suggestion ) {
+					$word = $this->word( $word, $suggestion );
+				}
 
-			foreach ( $this->suggestions as $suggestion ) {
-				$hyphenated_match = $this->word( $hyphenated_match, $suggestion );
-			}
+				return $word;
+			},
+			$chunk
+		);
 
-			$result .= $hyphenated_match . $match[2];
-		}
-
-		return $result;
+		return $hyphenated ?? $chunk;
 	}
 
 	/**
