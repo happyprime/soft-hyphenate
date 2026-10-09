@@ -57,4 +57,30 @@ class TestInit extends WP_UnitTestCase {
 		$this->assertNull( Init::hyphenation( null ) );
 		$this->assertSame( [ 'hyphenation' ], Init::hyphenation( [ 'hyphenation' ] ) );
 	}
+
+	/**
+	 * Test that shortcode attributes reach the shortcode unchanged.
+	 */
+	public function test_shortcode_attributes_are_not_hyphenated(): void {
+		$received = null;
+
+		add_shortcode(
+			'soft_hyphenate_test',
+			function ( $atts ) use ( &$received ) {
+				$received = $atts['word'] ?? null;
+
+				return '<span>hyphenation</span>';
+			}
+		);
+
+		$this->go_to( home_url( '/' ) );
+
+		$content = apply_filters( 'the_content', '[soft_hyphenate_test word="hyphenation"] hyphenation' );
+
+		remove_shortcode( 'soft_hyphenate_test' );
+
+		$this->assertSame( 'hyphenation', $received );
+		$this->assertIsString( $content );
+		$this->assertSame( 2, substr_count( $content, "hyphenat\u{00AD}ion" ) );
+	}
 }

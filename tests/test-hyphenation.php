@@ -192,6 +192,9 @@ class TestHyphenation extends WP_UnitTestCase {
 		$original    = '<p>Fish &amp; chips&nbsp;&#8211; &lt;today&gt;</p>';
 
 		$this->assertSame( $original, $hyphenation->content( $original ) );
+
+		// Encoding these quotes as &quot; would break the shortcode's attributes.
+		$this->assertSame( '<p>[gallery ids="1,2,3"]</p>', $hyphenation->content( '<p>[gallery ids="1,2,3"]</p>' ) );
 	}
 
 	/**

@@ -17,7 +17,9 @@ class Init {
 	public static function init(): void {
 		add_action( 'init', [ __CLASS__, 'admin' ] );
 		add_filter( 'the_title', [ __CLASS__, 'hyphenation' ] );
-		add_filter( 'the_content', [ __CLASS__, 'hyphenation' ] );
+
+		// Run after do_shortcode() (priority 11) so shortcode attributes are never rewritten.
+		add_filter( 'the_content', [ __CLASS__, 'hyphenation' ], 12 );
 	}
 
 	/**
