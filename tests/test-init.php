@@ -1,0 +1,52 @@
+<?php
+/**
+ * Class TestInit
+ *
+ * @package soft-hyphenate
+ */
+
+use HappyPrime\SoftHyphenate;
+use HappyPrime\SoftHyphenate\Init;
+
+/**
+ * Test the filters that apply hyphenation.
+ */
+class TestInit extends WP_UnitTestCase {
+
+	/**
+	 * Set up the test.
+	 */
+	public function setUp(): void {
+		parent::setUp();
+
+		update_option( SoftHyphenate\OPTION_NAME, 'hyphenat-ion' );
+	}
+
+	/**
+	 * Tear down the test.
+	 */
+	public function tearDown(): void {
+		delete_option( SoftHyphenate\OPTION_NAME );
+
+		parent::tearDown();
+	}
+
+	/**
+	 * Test that content is hyphenated outside of feeds.
+	 */
+	public function test_content_is_hyphenated(): void {
+		$this->go_to( home_url( '/' ) );
+
+		$this->assertSame( "hyphenat\u{00AD}ion", Init::hyphenation( 'hyphenation' ) );
+	}
+
+	/**
+	 * Test that content in feeds is not hyphenated.
+	 */
+	public function test_feed_content_is_not_hyphenated(): void {
+		$this->go_to( get_feed_link() );
+
+		$this->assertTrue( is_feed() );
+		$this->assertSame( 'hyphenation', Init::hyphenation( 'hyphenation' ) );
+	}
+}

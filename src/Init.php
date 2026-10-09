@@ -37,6 +37,11 @@ class Init {
 	 * @return string The post content with soft hyphens added.
 	 */
 	public static function hyphenation( string $content ): string {
+		// Suggestions suit the site's own layout. Feed readers lay text out their own way.
+		if ( is_feed() ) {
+			return $content;
+		}
+
 		$hyphenation = new Hyphenate();
 
 		return $hyphenation->content( $content );
