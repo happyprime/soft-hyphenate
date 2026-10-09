@@ -49,4 +49,12 @@ class TestInit extends WP_UnitTestCase {
 		$this->assertTrue( is_feed() );
 		$this->assertSame( 'hyphenation', Init::hyphenation( 'hyphenation' ) );
 	}
+
+	/**
+	 * Test that values other than strings pass through unchanged.
+	 */
+	public function test_non_string_values_pass_through(): void {
+		$this->assertNull( Init::hyphenation( null ) );
+		$this->assertSame( [ 'hyphenation' ], Init::hyphenation( [ 'hyphenation' ] ) );
+	}
 }

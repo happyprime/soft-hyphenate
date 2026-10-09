@@ -32,11 +32,19 @@ class Init {
 	/**
 	 * Add soft hyphens to content.
 	 *
-	 * @param string $content Content to be soft-hyphenated.
+	 * Values other than strings are returned unchanged. Other code applies
+	 * these filters too, and a string type declaration turns a stray null
+	 * into a fatal error.
 	 *
-	 * @return string The post content with soft hyphens added.
+	 * @param mixed $content Content to be soft-hyphenated.
+	 *
+	 * @return mixed The content with soft hyphens added.
 	 */
-	public static function hyphenation( string $content ): string {
+	public static function hyphenation( $content ) {
+		if ( ! is_string( $content ) ) {
+			return $content;
+		}
+
 		// Suggestions suit the site's own layout. Feed readers lay text out their own way.
 		if ( is_feed() ) {
 			return $content;
