@@ -1,5 +1,5 @@
 {
-	"landingPage": "/wp-admin/options-general.php?page=soft-hyphenate",
+	"landingPage": "/wp-admin/options-general.php?page=hp-sh-soft-hyphenate-page",
 	"preferredVersions": {
 		"php": "8.2",
 		"wp": "7.1"
