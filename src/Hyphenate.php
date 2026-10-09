@@ -103,7 +103,7 @@ class Hyphenate {
 	 */
 	public function chunk( string $chunk ): string {
 		$hyphenated = preg_replace_callback(
-			'/[^\s\p{P}]+/',
+			'/[^\s\p{P}]+/u',
 			function ( array $matches ): string {
 				$word = $matches[0];
 
@@ -134,7 +134,7 @@ class Hyphenate {
 	public function word( string $word, string $suggestion ): string {
 		$without_hyphens = str_replace( '-', '', $suggestion );
 
-		if ( strtolower( $word ) !== strtolower( $without_hyphens ) ) {
+		if ( mb_strtolower( $word ) !== mb_strtolower( $without_hyphens ) ) {
 			return $word;
 		}
 

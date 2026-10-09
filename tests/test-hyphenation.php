@@ -29,6 +29,7 @@ class TestHyphenation extends WP_UnitTestCase {
 				'pascalcase-word',
 				'elem-ent',
 				'funky🥃whisk-ey',
+				'bundes-ausbildungs-förderungs-gesetz',
 			]
 		);
 
@@ -191,5 +192,31 @@ class TestHyphenation extends WP_UnitTestCase {
 		$original    = '<p>Fish &amp; chips&nbsp;&#8211; &lt;today&gt;</p>';
 
 		$this->assertSame( $original, $hyphenation->content( $original ) );
+	}
+
+	/**
+	 * Test that words with multibyte characters match their suggestions.
+	 */
+	public function test_multibyte_words(): void {
+		$hyphenation = new Hyphenate();
+		$shy         = "\u{00AD}";
+
+		$this->assertSame(
+			"<p>Das Bundes{$shy}ausbildungs{$shy}förderungs{$shy}gesetz gilt.</p>",
+			$hyphenation->content( '<p>Das Bundesausbildungsförderungsgesetz gilt.</p>' )
+		);
+		$this->assertSame(
+			"<h2>BUNDES{$shy}AUSBILDUNGS{$shy}FÖRDERUNGS{$shy}GESETZ</h2>",
+			$hyphenation->content( '<h2>BUNDESAUSBILDUNGSFÖRDERUNGSGESETZ</h2>' )
+		);
+	}
+
+	/**
+	 * Test that text which is not valid UTF-8 is returned unchanged.
+	 */
+	public function test_invalid_utf8_is_returned_unchanged(): void {
+		$hyphenation = new Hyphenate();
+
+		$this->assertSame( "hyphenation \xff", $hyphenation->chunk( "hyphenation \xff" ) );
 	}
 }
