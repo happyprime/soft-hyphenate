@@ -16,6 +16,35 @@ Once this plugin is activated, a settings page is available at Settings -> Soft 
 
 Because browsers do handle most automatic hyphenation, this plugin does not attempt to use an algorithmic approach to hyphenation. If you're looking for a more comprehensive approach, you might consider using the [wp-Typography](https://wordpress.org/plugins/wp-typography/) plugin.
 
+## Development
+
+Requires Docker, Node 20+, and Composer.
+
+```sh
+npm install
+npm run env:start
+```
+
+`env:start` runs `composer install` (the plugin loads `vendor/autoload.php`), starts WordPress 7.1 at http://localhost:8960 (`admin` / `password`), and seeds:
+
+- Twenty Twenty-Five with pretty permalinks.
+- Hyphenation suggestions for German compounds and long English words.
+- `/german-compounds/`: compounds in a heading, an all-caps heading, and narrow columns.
+- `/long-english-words/`: the same kind of words in prose next to inline code, a code block, and preformatted text, which stay unhyphenated.
+
+`npm run env:seed` re-applies the seed. `npm run env:stop` stops the site.
+
+Checks:
+
+```sh
+composer phpcs
+composer phpstan
+npm run lint:package
+npm run env:test:start && npm run test:php
+```
+
+`test:php` runs PHPUnit in a separate environment on port 8961. Stop it with `npm run env:test:stop`.
+
 ## Changelog
 
 ### 1.0.0
