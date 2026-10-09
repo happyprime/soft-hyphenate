@@ -12,6 +12,16 @@ namespace HappyPrime\SoftHyphenate;
  */
 class Hyphenate {
 	/**
+	 * Tags whose text is left untouched.
+	 *
+	 * Copying code or keyboard input that contains invisible soft hyphens
+	 * gives text that no longer works when it is pasted.
+	 *
+	 * @var string[]
+	 */
+	const SKIPPED_TAGS = [ 'CODE', 'KBD', 'PRE', 'SAMP' ];
+
+	/**
 	 * The content to be hyphenated.
 	 *
 	 * @var string
@@ -57,10 +67,18 @@ class Hyphenate {
 	 * @return string The hyphenated content.
 	 */
 	public function content( string $content ): string {
-		$processor = new \WP_HTML_Tag_Processor( $content );
+		$processor  = new \WP_HTML_Tag_Processor( $content );
+		$skip_depth = 0;
 
 		while ( $processor->next_token() ) {
-			if ( '#text' !== $processor->get_token_name() ) {
+			$token_name = $processor->get_token_name();
+
+			if ( in_array( $token_name, self::SKIPPED_TAGS, true ) ) {
+				$skip_depth = max( 0, $skip_depth + ( $processor->is_tag_closer() ? -1 : 1 ) );
+				continue;
+			}
+
+			if ( '#text' !== $token_name || $skip_depth > 0 ) {
 				continue;
 			}
 

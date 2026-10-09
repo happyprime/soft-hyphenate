@@ -115,4 +115,54 @@ class TestHyphenation extends WP_UnitTestCase {
 
 		$this->assertEquals( $expected, $hyphenation->content( $original ) );
 	}
+
+	/**
+	 * Provide markup with text inside tags that are left untouched.
+	 *
+	 * @return array<array<string>>
+	 */
+	public function data_provider_for_test_skipped_tags(): array {
+		$shy = "\u{00AD}";
+
+		return [
+			[
+				'<p>Call <code>hyphenation()</code> for hyphenation.</p>',
+				'<p>Call <code>hyphenation()</code> for hyphenat' . $shy . 'ion.</p>',
+			],
+			[
+				"<pre class=\"wp-block-code\"><code>// hyphenation\nhyphenation();</code></pre><p>hyphenation</p>",
+				"<pre class=\"wp-block-code\"><code>// hyphenation\nhyphenation();</code></pre><p>hyphenat" . $shy . 'ion</p>',
+			],
+			[
+				'<pre>hyphenation</pre><kbd>Hyphenation</kbd><samp>HYPHENATION</samp>',
+				'<pre>hyphenation</pre><kbd>Hyphenation</kbd><samp>HYPHENATION</samp>',
+			],
+			[
+				'<pre><code>hyphenation</code> hyphenation</pre> hyphenation',
+				'<pre><code>hyphenation</code> hyphenation</pre> hyphenat' . $shy . 'ion',
+			],
+			[
+				'<CODE>hyphenation</CODE> hyphenation',
+				'<CODE>hyphenation</CODE> hyphenat' . $shy . 'ion',
+			],
+			[
+				'</code>hyphenation <code>hyphenation</code> hyphenation',
+				'</code>hyphenat' . $shy . 'ion <code>hyphenation</code> hyphenat' . $shy . 'ion',
+			],
+		];
+	}
+
+	/**
+	 * Test that text inside code, pre, kbd, and samp is not hyphenated.
+	 *
+	 * @dataProvider data_provider_for_test_skipped_tags
+	 *
+	 * @param string $original The original markup.
+	 * @param string $expected The expected markup.
+	 */
+	public function test_skipped_tags( string $original, string $expected ): void {
+		$hyphenation = new Hyphenate();
+
+		$this->assertSame( $expected, $hyphenation->content( $original ) );
+	}
 }
