@@ -5,8 +5,10 @@ parameters:
   level: max
   paths:
     - plugin.php
+    - uninstall.php
     - src
     - tests
   excludePaths:
+    - .dev/*
     - vendor/*
     - node_modules/*
