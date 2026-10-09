@@ -2,7 +2,7 @@
 Contributors: happyprime, jeremyfelt, slocker, philcable
 Tags: punctuation, content, formatting
 Requires at least: 6.7
-Tested up to: 6.7
+Tested up to: 7.1
 Stable tag: 1.0.0
 License: GPLv2 or later
 Requires PHP: 7.4
@@ -15,9 +15,11 @@ Soft Hyphenate adds soft hyphens (U+00AD) to titles and post content before they
 
 This is useful for adjusting the visual appearance of long words that are not hyphenated by default.
 
+Text inside `code`, `pre`, `kbd`, and `samp` elements is left alone so that copied code still works. Feeds are not hyphenated.
+
 All major browsers [support](https://caniuse.com/css-hyphens) the `hyphens: auto;` CSS property, which automatically hyphenates words as needed, but Chrome and Firefox do not apply hyphenation to capitalized words. This can create a situation, especially in headings, where long words bleed out of their container.
 
-Once this plugin is activated, a settings page is available at Settings -> Soft Hyphenate in the WordPress admin that allows to you to manage a list of hyphenation suggestions.
+Once this plugin is activated, a settings page is available at Settings -> Soft Hyphenate in the WordPress admin that allows you to manage a list of hyphenation suggestions.
 
 Because browsers do handle most automatic hyphenation, this plugin does not attempt to use an algorithmic approach to hyphenation. If you're looking for a more comprehensive approach, you might consider using the [wp-Typography](https://wordpress.org/plugins/wp-typography/) plugin.
 

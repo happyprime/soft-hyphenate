@@ -1,5 +1,14 @@
 includes:
-  - %rootDir%/../../happyprime/coding-standards/phpstan.neon.dist
+  - vendor/happyprime/coding-standards/phpstan.neon.dist
 
 parameters:
-  level: 9
+  level: max
+  paths:
+    - plugin.php
+    - uninstall.php
+    - src
+    - tests
+  excludePaths:
+    - .dev/*
+    - vendor/*
+    - node_modules/*

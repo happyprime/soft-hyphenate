@@ -27,6 +27,11 @@
 
 namespace HappyPrime\SoftHyphenate;
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 /**
  * A common prefix used with settings pages, fields, sections, and other
  * components to help with uniquity.
@@ -49,11 +54,6 @@ const SLUG = 'soft-hyphenate';
  * @var string
  */
 const OPTION_NAME = 'hp_soft_hyphenate';
-
-// If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
-}
 
 require_once __DIR__ . '/vendor/autoload.php';
 
