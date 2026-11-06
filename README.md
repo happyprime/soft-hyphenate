@@ -43,7 +43,7 @@ npm run lint:package
 npm run env:test:start && npm run test:php
 ```
 
-`test:php` runs PHPUnit in a separate environment on port 8961. Stop it with `npm run env:test:stop`.
+`test:php` runs PHPUnit in a separate environment on port 8961. The test site answers as `example.org`, as CI's does, because under wp-env's `localhost` `wp_mail()` refuses its own From address. CI installs its own test library on the runner. Stop the environment with `npm run env:test:stop`.
 
 ## Changelog
 
