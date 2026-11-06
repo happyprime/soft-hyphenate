@@ -12,6 +12,16 @@ namespace HappyPrime\SoftHyphenate;
  */
 class Hyphenate {
 	/**
+	 * Tags whose text is left untouched.
+	 *
+	 * Copying code or keyboard input that contains invisible soft hyphens
+	 * gives text that no longer works when it is pasted.
+	 *
+	 * @var string[]
+	 */
+	const SKIPPED_TAGS = [ 'CODE', 'KBD', 'PRE', 'SAMP' ];
+
+	/**
 	 * The content to be hyphenated.
 	 *
 	 * @var string
@@ -57,26 +67,28 @@ class Hyphenate {
 	 * @return string The hyphenated content.
 	 */
 	public function content( string $content ): string {
-		$processor = new \WP_HTML_Tag_Processor( $content );
+		$processor  = new \WP_HTML_Tag_Processor( $content );
+		$skip_depth = 0;
 
 		while ( $processor->next_token() ) {
-			if ( '#text' !== $processor->get_token_name() ) {
+			$token_name = $processor->get_token_name();
+
+			if ( in_array( $token_name, self::SKIPPED_TAGS, true ) ) {
+				$skip_depth = max( 0, $skip_depth + ( $processor->is_tag_closer() ? -1 : 1 ) );
 				continue;
 			}
 
-			$chunk = $processor->get_modifiable_text();
+			if ( '#text' !== $token_name || $skip_depth > 0 ) {
+				continue;
+			}
 
-			// Capture leading and trailing whitespace and punctuation.
-			preg_match( '/^([\s\p{P}]*)(.*?)([\s\p{P}]*)$/', $chunk, $matches );
+			$text       = $processor->get_modifiable_text();
+			$hyphenated = $this->chunk( $text );
 
-			$front_matter = $matches[1] ?? '';
-			$chunk        = $matches[2] ?? $chunk;
-			$back_matter  = $matches[3] ?? '';
-
-			$chunk = $this->chunk( $chunk );
-			$chunk = $front_matter . $chunk . $back_matter;
-
-			$processor->set_modifiable_text( $chunk );
+			// Setting text re-encodes it, so only touch nodes that changed.
+			if ( $hyphenated !== $text ) {
+				$processor->set_modifiable_text( $hyphenated );
+			}
 		}
 
 		return $processor->get_updated_html();
@@ -90,20 +102,21 @@ class Hyphenate {
 	 * @return string The chunk of text with soft hyphens added.
 	 */
 	public function chunk( string $chunk ): string {
-		preg_match_all( '/([^\s\p{P}]+)([\s\p{P}]*)/', $chunk, $matches, PREG_SET_ORDER );
+		$hyphenated = preg_replace_callback(
+			'/[^\s\p{P}]+/u',
+			function ( array $matches ): string {
+				$word = $matches[0];
 
-		$result = '';
-		foreach ( $matches as $match ) {
-			$hyphenated_match = $match[1];
+				foreach ( $this->suggestions as $suggestion ) {
+					$word = $this->word( $word, $suggestion );
+				}
 
-			foreach ( $this->suggestions as $suggestion ) {
-				$hyphenated_match = $this->word( $hyphenated_match, $suggestion );
-			}
+				return $word;
+			},
+			$chunk
+		);
 
-			$result .= $hyphenated_match . $match[2];
-		}
-
-		return $result;
+		return $hyphenated ?? $chunk;
 	}
 
 	/**
@@ -121,7 +134,7 @@ class Hyphenate {
 	public function word( string $word, string $suggestion ): string {
 		$without_hyphens = str_replace( '-', '', $suggestion );
 
-		if ( strtolower( $word ) !== strtolower( $without_hyphens ) ) {
+		if ( mb_strtolower( $word ) !== mb_strtolower( $without_hyphens ) ) {
 			return $word;
 		}
 

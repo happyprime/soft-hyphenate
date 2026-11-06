@@ -73,7 +73,8 @@ class Admin {
 			__( 'Suggestions', 'soft-hyphenate' ),
 			[ __CLASS__, 'display_hyphenation_suggestion_input' ],
 			self::SETTINGS_PAGE,
-			self::SETTINGS_SECTION
+			self::SETTINGS_SECTION,
+			[ 'label_for' => OPTION_NAME ]
 		);
 	}
 

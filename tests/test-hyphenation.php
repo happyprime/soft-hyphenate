@@ -29,6 +29,7 @@ class TestHyphenation extends WP_UnitTestCase {
 				'pascalcase-word',
 				'elem-ent',
 				'funky🥃whisk-ey',
+				'bundes-ausbildungs-förderungs-gesetz',
 			]
 		);
 
@@ -114,5 +115,111 @@ class TestHyphenation extends WP_UnitTestCase {
 		$hyphenation = new Hyphenate();
 
 		$this->assertEquals( $expected, $hyphenation->content( $original ) );
+	}
+
+	/**
+	 * Provide markup with text inside tags that are left untouched.
+	 *
+	 * @return array<array<string>>
+	 */
+	public function data_provider_for_test_skipped_tags(): array {
+		$shy = "\u{00AD}";
+
+		return [
+			[
+				'<p>Call <code>hyphenation()</code> for hyphenation.</p>',
+				'<p>Call <code>hyphenation()</code> for hyphenat' . $shy . 'ion.</p>',
+			],
+			[
+				"<pre class=\"wp-block-code\"><code>// hyphenation\nhyphenation();</code></pre><p>hyphenation</p>",
+				"<pre class=\"wp-block-code\"><code>// hyphenation\nhyphenation();</code></pre><p>hyphenat" . $shy . 'ion</p>',
+			],
+			[
+				'<pre>hyphenation</pre><kbd>Hyphenation</kbd><samp>HYPHENATION</samp>',
+				'<pre>hyphenation</pre><kbd>Hyphenation</kbd><samp>HYPHENATION</samp>',
+			],
+			[
+				'<pre><code>hyphenation</code> hyphenation</pre> hyphenation',
+				'<pre><code>hyphenation</code> hyphenation</pre> hyphenat' . $shy . 'ion',
+			],
+			[
+				'<CODE>hyphenation</CODE> hyphenation',
+				'<CODE>hyphenation</CODE> hyphenat' . $shy . 'ion',
+			],
+			[
+				'</code>hyphenation <code>hyphenation</code> hyphenation',
+				'</code>hyphenat' . $shy . 'ion <code>hyphenation</code> hyphenat' . $shy . 'ion',
+			],
+		];
+	}
+
+	/**
+	 * Test that text inside code, pre, kbd, and samp is not hyphenated.
+	 *
+	 * @dataProvider data_provider_for_test_skipped_tags
+	 *
+	 * @param string $original The original markup.
+	 * @param string $expected The expected markup.
+	 */
+	public function test_skipped_tags( string $original, string $expected ): void {
+		$hyphenation = new Hyphenate();
+
+		$this->assertSame( $expected, $hyphenation->content( $original ) );
+	}
+
+	/**
+	 * Test that text around words survives when a text node spans lines.
+	 */
+	public function test_multiline_text_keeps_leading_punctuation(): void {
+		$hyphenation = new Hyphenate();
+		$shy         = "\u{00AD}";
+
+		$this->assertSame(
+			"<div>\n\t(Hyphenation,\nhyphenation.)\n</div>",
+			str_replace( $shy, '', $hyphenation->content( "<div>\n\t(Hyphenation,\nhyphenation.)\n</div>" ) )
+		);
+		$this->assertSame(
+			"<div>// hyphenat{$shy}ion\nhyphenat{$shy}ion</div>",
+			$hyphenation->content( "<div>// hyphenation\nhyphenation</div>" )
+		);
+	}
+
+	/**
+	 * Test that text with nothing to hyphenate keeps its original encoding.
+	 */
+	public function test_unchanged_text_keeps_entities(): void {
+		$hyphenation = new Hyphenate();
+		$original    = '<p>Fish &amp; chips&nbsp;&#8211; &lt;today&gt;</p>';
+
+		$this->assertSame( $original, $hyphenation->content( $original ) );
+
+		// Encoding these quotes as &quot; would break the shortcode's attributes.
+		$this->assertSame( '<p>[gallery ids="1,2,3"]</p>', $hyphenation->content( '<p>[gallery ids="1,2,3"]</p>' ) );
+	}
+
+	/**
+	 * Test that words with multibyte characters match their suggestions.
+	 */
+	public function test_multibyte_words(): void {
+		$hyphenation = new Hyphenate();
+		$shy         = "\u{00AD}";
+
+		$this->assertSame(
+			"<p>Das Bundes{$shy}ausbildungs{$shy}förderungs{$shy}gesetz gilt.</p>",
+			$hyphenation->content( '<p>Das Bundesausbildungsförderungsgesetz gilt.</p>' )
+		);
+		$this->assertSame(
+			"<h2>BUNDES{$shy}AUSBILDUNGS{$shy}FÖRDERUNGS{$shy}GESETZ</h2>",
+			$hyphenation->content( '<h2>BUNDESAUSBILDUNGSFÖRDERUNGSGESETZ</h2>' )
+		);
+	}
+
+	/**
+	 * Test that text which is not valid UTF-8 is returned unchanged.
+	 */
+	public function test_invalid_utf8_is_returned_unchanged(): void {
+		$hyphenation = new Hyphenate();
+
+		$this->assertSame( "hyphenation \xff", $hyphenation->chunk( "hyphenation \xff" ) );
 	}
 }

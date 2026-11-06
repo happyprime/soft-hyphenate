@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ruleset name="Soft Hyphenate">
+	<file>.</file>
+
+	<rule ref="HappyPrime"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="soft-hyphenate"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="HappyPrime\SoftHyphenate"/>
+				<element value="hp_soft_hyphenate"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>
