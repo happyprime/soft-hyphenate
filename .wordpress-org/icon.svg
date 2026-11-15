@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+<title id="title">Soft Hyphenate</title>
+<desc id="desc">A white geometric icon on a circular color badge.</desc>
+<defs>
+  <linearGradient id="badge-soft-hyphenate" x1="100%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#3EA5B0"/>
+    <stop offset="28%" stop-color="#3A6EA5"/>
+    <stop offset="100%" stop-color="#244B75"/>
+  </linearGradient>
+<mask id="notch-soft-hyphenate"><rect width="256" height="256" fill="#fff"/><polygon points="201.2,58.4 359.1,32.3 370.6,-111.6 226.7,-99.5" fill="#000" stroke="#000" stroke-width="6.6" stroke-linejoin="round"/></mask>
+</defs>
+<circle cx="128" cy="128" r="118" fill="url(#badge-soft-hyphenate)" mask="url(#notch-soft-hyphenate)"/>
+
+  <g class="glyph" transform="translate(128 128) scale(0.85) translate(-128 -128)">
+  <!-- A long line that breaks at a hyphen, and the rest of the word on the line below. -->
+  <path d="M50 102h108M180 102h26" fill="none" stroke="#fff" stroke-width="24" stroke-linecap="round"/>
+  <path d="M50 154h84" fill="none" stroke="#fff" stroke-width="24" stroke-linecap="round"/>
+  </g>
+</svg>
